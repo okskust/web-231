@@ -1,0 +1,13 @@
+/**
+============================================
+Title: kustova-temp-conversion.css
+Author: Oksana Kustova
+Date: 6/11/2021
+Description: Styling for kustova-temp-conversion.html file.
+===========================================
+*/
+
+.celcius {
+    font-size: 28px;
+    text-align: center;
+}

@@ -21,6 +21,12 @@ h1, h2, h3, h4 {
     border: solid 1px #D6A800;
     padding: 10px;
 }
+.app-header {
+    background-color: #ffff;
+    color: rgb(0, 0, 0);
+    border: none;
+    text-align: center;
+}
 a {
     color: #4F3674;
     text-decoration: none;
