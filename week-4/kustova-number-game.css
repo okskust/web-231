@@ -1,0 +1,13 @@
+/**
+============================================
+Title: kustova-number-game.css
+Author: Oksana Kustova
+Date: 6/18/2021
+Description: Styling for kustova-number-game.html file.
+===========================================
+*/
+
+.card-result {
+    font-size: 28px;
+    text-align: center;
+  }
