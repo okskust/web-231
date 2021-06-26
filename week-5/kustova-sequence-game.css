@@ -1,0 +1,13 @@
+/**
+============================================
+Title: kustova-sequence-game.css
+Author: Oksana Kustova
+Date: 6/25/2021
+Description: Styling for kustova-sequence-game.html file.
+===========================================
+*/
+
+.card-result {
+    font-size: 28px;
+    text-align: center;
+  }
