@@ -1,0 +1,37 @@
+/**
+============================================
+Title: kustova-in-n-out-books.css
+Author: Oksana Kustova
+Date: 7/3/2021
+Description: Styling for kustova-in-n-out-books.html file.
+===========================================
+*/
+
+table {
+  width: 95%;
+  margin: 0 auto;
+}
+table,
+th,
+td {
+  border-collapse: collapse;
+  border: 1px solid #ddd;
+}
+th {
+  text-align: left;
+  background-color: #4f3674;
+  color: white;
+}
+td,
+th {
+  padding: 12px 0 12px 12px;
+}
+.dataRow:hover {
+  background-color: #d6a800;
+  color: #4f3674;
+  cursor: pointer;
+}
+#result {
+  margin-top: 30px;
+  padding-bottom: 30px;
+}
