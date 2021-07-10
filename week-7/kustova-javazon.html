@@ -1,0 +1,266 @@
+<!--
+============================================
+Title: kustova-javazon.html
+Author: Oksana Kustova
+Date: 7/9/2021
+Description: The Javazon App.
+===========================================
+-->
+
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <title>WEB 231 – Enterprise JavaScript I</title>
+    <link rel="stylesheet" href="../global.css" type="text/css" />
+    <link rel="stylesheet" href="../site.css" type="text/css" />
+    <link rel="stylesheet" href="kustova-javazon.css" type="text/css" />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Oswald:wght@300;400;500;700&display=swap"
+      rel="stylesheet"
+    />
+  </head>
+  <body>
+    <div class="main-container">
+      <h1 class="app-header">Welcome to the Javazon App!</h1>
+
+      <!-- Card with an select field. -->
+      <div class="card">
+        <div class="card-title">Javazon Selection Form</div>
+
+        <div class="card-content max-width">
+          <div class="form-field">
+            <label for="listing">Choose a listing: </label>
+            <select class="drop-down-menu" id="listing" name="myListing">
+              <option value="select">--Select--</option>
+              <option value="products">Products</option>
+              <option value="services">Services</option>
+              <option value="employees">Employees</option>
+            </select>
+          </div>
+
+          <div class="form-field">
+            <button id="btnDisplayListing" class="btn btn-primary full-width">
+              Display Listing
+            </button>
+          </div>
+        </div>
+      </div>
+
+      <a href="../index.html" class="return-home">Return</a>
+
+      <!-- Card with a result. -->
+      <div class="card" id="result">
+        <div id="products">
+          <div class="card-title" id="products-title"></div>
+          <div class="table" id="products-table"></div>
+        </div>
+        <div id="services">
+          <div class="card-title" id="services-title"></div>
+          <div class="table" id="services-table"></div>
+        </div>
+        <div id="employees">
+          <div class="card-title" id="employees-title"></div>
+          <div class="table" id="employees-table"></div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Check selection and write results into an HTML <div> element by id. -->
+    <script>
+
+      // The function creates a head row.
+      function createHeader(headers) {
+        let tableHeader = document.createElement("tr");
+        for (let i = 0; i < headers.length; i++) {
+          let headerCell = document.createElement("th");
+          tableHeader.append(headerCell);
+          headerCell.append(Object.values(headers[i])[0]);
+        }
+        return tableHeader;
+      }
+
+      // The function creates a data row.
+      function createRow(obj, headers) {
+        let tableRow = document.createElement("tr");
+        tableRow.classList.add("dataRow");
+        for (let i = 0; i < headers.length; i++) {
+          let tableCell = document.createElement("td");
+          tableRow.append(tableCell);
+          tableCell.append(obj[Object.keys(headers[i])[0]]);
+        }
+        return tableRow;
+      }
+
+      // The function creates a table from rows.
+      function fillTable(table, content, headers) {
+        table.append(createHeader(headers));
+        for (let i = 0; i < content.length; i++) {
+          table.append(createRow(content[i], headers));
+        }
+      }
+
+      //The function creates card content.
+      function fillCard(idTitle, idTable, title, content, headers) {
+        document.getElementById(idTitle).append(title);
+        let table = document.createElement("table");
+        document.getElementById(idTable).append(table);
+        fillTable(table, content, headers);
+      }
+
+      // Setting the initial data.
+      let productsHeaders = [
+        { id: "Product ID" },
+        { description: "Description" },
+        { price: "Price" },
+        { quantity: "Quantity" },
+        { totalValue: "Total\nValue" },
+      ];
+
+      let servicesHeaders = [
+        { id: "Service ID" },
+        { description: "Description" },
+        { hourlyRate: "Hourly Rate" },
+        { min: "Minimum Billable Hours" },
+      ];
+
+      let employeesHeaders = [
+        { id: "Employee ID" },
+        { lastName: "Last Name" },
+        { firstName: "First Name" },
+        { salary: "Salary" },
+      ];
+
+      class Product {
+        constructor(id, description, price, quantity) {
+          this.id = id;
+          this.description = description;
+          this.price = price;
+          this.quantity = quantity;
+          this.totalValue = (price * quantity).toFixed(2);
+        }
+      }
+
+      class Service {
+        constructor(id, description, hourlyRate, min) {
+          this.id = id;
+          this.description = description;
+          this.hourlyRate = hourlyRate;
+          this.min = min;
+        }
+      }
+
+      class Employee {
+        constructor(id, lastName, firstName, salary) {
+          this.id = id;
+          this.lastName = lastName;
+          this.firstName = firstName;
+          this.salary = salary;
+        }
+      }
+
+      let products = [
+        new Product(
+          "9781118008188",
+          "HTML and CSS: Design and Build Websites",
+          (22.66).toFixed(2),
+          10
+        ),
+        new Product(
+          "9781491952023",
+          "JavaScript: The Definitive Guide 7/E",
+          (41.33).toFixed(2),
+          7
+        ),
+        new Product(
+          "9781449331818",
+          "Learning JavaScript Design Patterns 1/E",
+          (25.99).toFixed(2),
+          3
+        ),
+        new Product(
+          "9781617292422",
+          "Express in Action: Writing, building, and testing Node.js applications 1/E",
+          (34.91).toFixed(2),
+          3
+        ),
+        new Product(
+          "9781491954461",
+          "MongoDB the Definitive Guide",
+          (33.7).toFixed(2),
+          8
+        ),
+      ];
+
+      let services = [
+        new Service("100", "Website Design", (150).toFixed(2), 25),
+        new Service("101", "DevOps Consulting", (125).toFixed(2), 50),
+        new Service("102", "Database Design", (125).toFixed(2), 15),
+      ];
+
+      let employees = [
+          new Employee("1007", "Finch", "John", (13.99).toFixed(2)),
+          new Employee("1008", "Sparrow", "Philip", (22.30).toFixed(2)),
+          new Employee("1009", "Bluejay", "David", (19.50).toFixed(2)),
+          new Employee("1010", "Woodpecker", "Peggy", (12.00).toFixed(2)),
+          new Employee("1011", "Owl", "Mary", (32.50).toFixed(2)),
+      ];
+
+      document.getElementById("result").style.display = "none";
+
+      //Filling of result cards.
+
+      fillCard(
+        "products-title",
+        "products-table",
+        "Javazon Products",
+        products,
+        productsHeaders
+      );
+      fillCard(
+        "services-title",
+        "services-table",
+        "Javazon Services",
+        services,
+        servicesHeaders
+      );
+      fillCard(
+        "employees-title",
+        "employees-table",
+        "Javazon Employees",
+        employees,
+        employeesHeaders
+      );
+
+      document.getElementById("btnDisplayListing").onclick = function () {
+        let choice = document.getElementById("listing").value;
+
+        // Check if a selected value is valid. If it is not valid report an error. If it is valid show a table.
+        if (choice === "select") {
+          alert("Invalid selection, please try again!");
+          document.getElementById("result").style.display = "none";
+        } else {
+          if (choice === "products") {
+            document.getElementById("result").style.display = "block";
+            document.getElementById("products").style.display = "block";
+            document.getElementById("services").style.display = "none";
+            document.getElementById("employees").style.display = "none";
+          } else {
+            if (choice === "services") {
+              document.getElementById("result").style.display = "block";
+              document.getElementById("products").style.display = "none";
+              document.getElementById("services").style.display = "block";
+              document.getElementById("employees").style.display = "none";
+            } else {
+              if (choice === "employees") {
+                document.getElementById("result").style.display = "block";
+                document.getElementById("products").style.display = "none";
+                document.getElementById("services").style.display = "none";
+                document.getElementById("employees").style.display = "block";
+              }
+            }
+          }
+        }
+      };
+    </script>
+  </body>
+</html>
