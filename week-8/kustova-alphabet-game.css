@@ -1,0 +1,17 @@
+/**
+============================================
+Title: kustova-alphabet-game.css
+Author: Oksana Kustova
+Date: 7/16/2021
+Description: Styling for kustova-alphabet-game.html file.
+===========================================
+*/
+
+#letters {
+  margin-top: 30px;  
+}
+
+.card-result {
+    font-size: 28px;
+    text-align: center;
+  }
