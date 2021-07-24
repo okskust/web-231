@@ -1,0 +1,145 @@
+<!--
+============================================
+Title: kustova-sequence-game.html
+Author: Oksana Kustova
+Date: 6/25/2021
+Description: The sequence game.
+===========================================
+-->
+
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <title>WEB 231 – Enterprise JavaScript I</title>
+    <link rel="stylesheet" href="../global.css" type="text/css" />
+    <link rel="stylesheet" href="../site.css" type="text/css" />
+    <link rel="stylesheet" href="kustova-card-game.css" type="text/css" />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Oswald:wght@300;400;500;700&display=swap"
+      rel="stylesheet"
+    />
+    <link
+      href="https://cdn.jsdelivr.net/npm/@mdi/font@5.9.55/css/materialdesignicons.min.css"
+      rel="stylesheet"
+    />
+  </head>
+  <body>
+    <div class="main-container">
+      <h1 class="app-header">Welcome to the card game!</h1>
+
+      <!-- Card with an select field. -->
+      <div class="card">
+        <div class="card-title">Card Dealer</div>
+        <div class="form-field">
+          <button id="btnDealCards" class="btn btn-primary full-width">
+            Deal Cards
+          </button>
+        </div>
+      </div>
+      <a href="../index.html" class="return-home">Return</a>
+
+      <!-- Card with a result. -->
+      <div class="card under" id="result">
+        <div class="card-title">Shuffled Cards</div>
+      </div>
+    </div>
+
+    <!-- Write results into an HTML <div> element by id. -->
+    <script>
+      class Card {
+        constructor(face, suit) {
+          this.face = face;
+          this.suit = suit;
+        }
+      }
+      class Dealer {
+        constructor() {
+          this.CARD_COUNT = 52;
+          this.cards = [];
+          this.faces = ["A", 2, 3, 4, 5, 6, 7, 8, 9, 10, "J", "Q", "K"];
+          this.suits = ["Hearts", "Diamonds", "Clubs", "Spades"];
+          this.getDeckOfCards();
+        }
+
+        //The function creates a deck of cards.
+        getDeckOfCards() {
+          for (let count = 0; count < this.CARD_COUNT; count++) {
+            this.cards[count] = new Card(
+              this.faces[count % 13],
+              this.suits[Math.floor(count / 13)]
+            );
+          }
+        }
+
+        //The function implements an algorithm called Fisher-Yates shuffle.
+        shuffle() {
+          for (let i = this.CARD_COUNT - 1; i > 0; i--) {
+            let j = Math.floor(Math.random() * (i + 1));
+            [this.cards[i], this.cards[j]] = [this.cards[j], this.cards[i]];
+          }
+        }
+
+        //The function displays a deck of cards on the screen: creates elements and sets style.        
+        buildPlayingCard() {
+          let container = document.createElement("div");
+          document.getElementById("result").append(container);
+          container.id = "player-card-container";
+          container.style.cssText = `display: grid; grid-template-columns: auto auto auto auto; grid-gap: 10px;padding: 10px;`;
+
+          for (let card of this.cards) {
+            let divCard = document.createElement("div");
+            container.append(divCard);
+            divCard.classList.add("player-card");
+            divCard.style.cssText = `text-align: center; box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2); transition: 0.3s;`;
+
+            let divTitle = document.createElement("div");
+            divCard.append(divTitle);
+            divTitle.classList.add("title-player-card");
+            let cardColor =
+              card.suit === "Hearts" || card.suit === "Diamonds"
+                ? "red"
+                : "black";
+            divTitle.style.cssText = `text-align: left; font-size: 20px; padding-left: 10px; color: ${cardColor};`;
+            divTitle.textContent = `${card.face}`;
+
+            let divContent = document.createElement("div");
+            divCard.append(divContent);
+            divContent.classList.add("content-player-card");
+            divContent.style.cssText = `font-size: 28px; padding-bottom: 25px;`;
+
+            let spanContent = document.createElement("span");
+            divContent.append(spanContent);
+            spanContent.classList.add("mdi");
+            let suitIcon;
+            switch (card.suit) {
+              case "Hearts":
+                suitIcon = "mdi-cards-heart";
+                break;
+              case "Diamonds":
+                suitIcon = "mdi-cards-diamond";
+                break;
+              case "Clubs":
+                suitIcon = "mdi-cards-club";
+                break;
+              case "Spades":
+                suitIcon = "mdi-cards-spade";
+                break;
+            }
+            spanContent.classList.add(suitIcon);
+            spanContent.style.cssText = `color: ${cardColor};`;
+          }
+        }
+      }
+
+      document.getElementById("btnDealCards").onclick = function () {          
+        if (document.getElementById("player-card-container")) {
+          document.getElementById("player-card-container").remove();
+        }
+        let shuffledCards = new Dealer();
+        shuffledCards.shuffle();
+        shuffledCards.buildPlayingCard();       
+      };
+
+    </script>
+  </body>
+</html>
